@@ -22,7 +22,7 @@ public:
 class Group{
 private:
 	//Vertex List }
-	//Normal List } should probably be some sort of Array
+	//Normal List } Array
 	//Display List, can be Linked List
 	//Vector of Material Coefficients
 public:

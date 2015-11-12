@@ -57,10 +57,11 @@ OBJLoader::OBJLoader(FILE *fp){
 			printf("g\n");
 			while (c != '\n'){ c = fgetc(fp); }
 		}
-		else{ //if un-supported tag is found
+		else if(c!=EOF){ //if un-supported tag is found ignore it & that 'tag' is not the EOF
 			while (c != '\n'){ c = fgetc(fp); }
 		}
 	}
+	fclose(fp);
 }
 
 OBJLoader::~OBJLoader(){}
