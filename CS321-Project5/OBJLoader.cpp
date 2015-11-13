@@ -1,6 +1,7 @@
 #include "OBJLoader_H.h"
 
 OBJLoader::OBJLoader(FILE *fp){
+	this->fp = fp;
 	int c = 0;
 	while (c != EOF){
 		c = fgetc(fp);
@@ -63,5 +64,42 @@ OBJLoader::OBJLoader(FILE *fp){
 	}
 	fclose(fp);
 }
+//OBJLoader::~OBJLoader(){}
 
-OBJLoader::~OBJLoader(){}
+int* OBJLoader::getTagCounts(){
+	int* tagCounts = (int *)calloc(3, sizeof(int));
+	tagCounts = { 0 };
+
+	fseek(fp, 0, SEEK_SET);
+	int c = 0;
+	while (c != EOF){
+		c = fgetc(fp);
+		if (c == 'v'){
+			int nc = fgetc(fp);
+			if (nc == 'n'){
+				tagCounts[1]++;
+			}
+			else { 
+				fseek(fp, -1, SEEK_CUR); 
+				tagCounts[0]++;
+			}
+			
+		}
+		else if (c == 'o'){
+			tagCounts[2]++;
+		}
+
+		if (c != EOF){
+			while (c != '\n'){ c = fgetc(fp); }
+		}
+
+	}
+
+	return tagCounts;
+}
+
+Object::Object(){}
+//Object::~Object(){}
+
+Group::Group(){}
+//Group::~Group(){}

@@ -81,10 +81,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GLinkedList.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="OBJMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GLinkedList_H.h" />
     <ClInclude Include="OBJLoader_H.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,31 +1,38 @@
+#ifndef OBJLoader_H
+#define OBJLoader_H
+
 #include <stdio.h>
 #include <GL/freeglut.h>
-
-class Group;
-class Object;
-class OBJLoader;
-
-class OBJLoader{
-private:
-	//LinkedList of Objects
-public:
-	OBJLoader(FILE *fp);
-	~OBJLoader();
-};
-class Object{//LinkedList of Groups
-private:
-public:
-	Object(char* oName);
-	~Object();
-};
+#include "GLinkedList_H.h"
 
 class Group{
 private:
+	char* name;
+	//Display List, can be Linked List
+	// * Format?
+	//Array of Material Coefficients
+public:
+	Group();
+	Group(char* gName);
+};
+class Object{//LinkedList of Groups
+private:
+	char* name;
 	//Vertex List }
 	//Normal List } Array
-	//Display List, can be Linked List
-	//Vector of Material Coefficients
+	LinkedList<Group> groups;
 public:
-	Group(char* gName);
-	~Group();
+	Object();
+	Object(char* oName);
 };
+class OBJLoader{//LinkedList of Objects
+private:
+	FILE *fp;
+	LinkedList<Object> objects;
+public:
+	OBJLoader(FILE *fp);
+
+	int* getTagCounts();
+};
+
+#endif

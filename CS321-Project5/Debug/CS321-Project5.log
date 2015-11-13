@@ -1,18 +1,32 @@
-﻿Build started 11/12/2015 9:06:17 AM.
-     1>Project "E:\Visual Studios Projects\CS321-Project5\CS321-Project5\CS321-Project5\CS321-Project5.vcxproj" on node 2 (Build target(s)).
+﻿Build started 11/12/2015 4:00:03 PM.
+     1>Project "E:\Visual Studios Projects\CS321-Project5\CS321-Project5\CS321-Project5.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt OBJLoader.cpp
+         E:\Programs\VS2013_Ultimate\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt GLinkedList.cpp OBJLoader.cpp OBJMain.cpp
+         OBJMain.cpp
+     1>c:\program files (x86)\microsoft sdks\windows\v7.1a\include\sal_supp.h(57): warning C4005: '__useHeader' : macro redefinition
+                 e:\programs\vs2013_ultimate\vc\include\sal.h(2886) : see previous definition of '__useHeader'
+     1>c:\program files (x86)\microsoft sdks\windows\v7.1a\include\specstrings_supp.h(77): warning C4005: '__on_failure' : macro redefinition
+                 e:\programs\vs2013_ultimate\vc\include\sal.h(2896) : see previous definition of '__on_failure'
          OBJLoader.cpp
      1>c:\program files (x86)\microsoft sdks\windows\v7.1a\include\sal_supp.h(57): warning C4005: '__useHeader' : macro redefinition
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\sal.h(2886) : see previous definition of '__useHeader'
+                 e:\programs\vs2013_ultimate\vc\include\sal.h(2886) : see previous definition of '__useHeader'
      1>c:\program files (x86)\microsoft sdks\windows\v7.1a\include\specstrings_supp.h(77): warning C4005: '__on_failure' : macro redefinition
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\sal.h(2896) : see previous definition of '__on_failure'
+                 e:\programs\vs2013_ultimate\vc\include\sal.h(2896) : see previous definition of '__on_failure'
+         Generating Code...
+         Compiling...
+         GLinkedList.cpp
+     1>e:\visual studios projects\cs321-project5\cs321-project5\glinkedlist.cpp(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+         Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Visual Studios Projects\CS321-Project5\CS321-Project5\Debug\CS321-Project5.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib" glew32.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Visual Studios Projects\CS321-Project5\CS321-Project5\Debug\CS321-Project5.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Visual Studios Projects\CS321-Project5\CS321-Project5\Debug\CS321-Project5.lib" /MACHINE:X86 Debug\OBJLoader.obj
+         E:\Programs\VS2013_Ultimate\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Visual Studios Projects\CS321-Project5\Debug\CS321-Project5.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib" glew32.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Visual Studios Projects\CS321-Project5\Debug\CS321-Project5.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Visual Studios Projects\CS321-Project5\Debug\CS321-Project5.lib" /MACHINE:X86 Debug\GLinkedList.obj
+         Debug\OBJLoader.obj
          Debug\OBJMain.obj
-         CS321-Project5.vcxproj -> E:\Visual Studios Projects\CS321-Project5\CS321-Project5\Debug\CS321-Project5.exe
-     1>Done Building Project "E:\Visual Studios Projects\CS321-Project5\CS321-Project5\CS321-Project5\CS321-Project5.vcxproj" (Build target(s)).
+     1>OBJLoader.obj : error LNK2019: unresolved external symbol "public: __thiscall LinkedList<class Group>::LinkedList<class Group>(void)" (??0?$LinkedList@VGroup@@@@QAE@XZ) referenced in function "public: __thiscall Object::Object(void)" (??0Object@@QAE@XZ)
+     1>OBJLoader.obj : error LNK2019: unresolved external symbol "public: __thiscall LinkedList<class Object>::LinkedList<class Object>(void)" (??0?$LinkedList@VObject@@@@QAE@XZ) referenced in function "public: __thiscall OBJLoader::OBJLoader(struct _iobuf *)" (??0OBJLoader@@QAE@PAU_iobuf@@@Z)
+     1>OBJMain.obj : error LNK2019: unresolved external symbol "public: __thiscall LinkedList<class Object>::~LinkedList<class Object>(void)" (??1?$LinkedList@VObject@@@@QAE@XZ) referenced in function "public: __thiscall OBJLoader::~OBJLoader(void)" (??1OBJLoader@@QAE@XZ)
+     1>E:\Visual Studios Projects\CS321-Project5\Debug\CS321-Project5.exe : fatal error LNK1120: 3 unresolved externals
+     1>Done Building Project "E:\Visual Studios Projects\CS321-Project5\CS321-Project5\CS321-Project5.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.39
+Time Elapsed 00:00:00.84
