@@ -1,7 +1,78 @@
 #include "OBJLoader_H.h"
 
+//Generic Node for the implementation of a Generic Doubly Linked List
+template <class T> Node<T>::Node(){ this->data = new T(); }
+template <class T> Node<T>::Node(T d){ data = d; }
+template <class T> Node<T>::~Node(){
+	delete &data;
+	this->previous = NULL;
+	this->next = NULL;
+}
+template <class T> void Node<T>::setData(T d){ data = d; }
+template <class T> T* Node<T>::getData(){ return &data; }
+template <class T> void Node<T>::setNext(Node<T> *tnext){
+	if (next != NULL) next->previous = tnext;
+	next = tnext;
+	if (tnext != NULL) tnext->previous = this;
+}
+template <class T> Node<T>* Node<T>::getNext(){ return next; }
+template <class T> void Node<T>::setPrevious(Node<T> *tprevious){
+	if (previous != NULL) previous->next = tprevious;
+	previous = tprevious;
+	if (tprevious != NULL) tprevious->next = this;
+}
+template <class T> Node<T>* Node<T>::getPrevious(){ return previous; }
+
+//Generic Doubly Linked List
+template <class T> LinkedList<T>::LinkedList(){ length = 0; }
+template <class T> LinkedList<T>::LinkedList(Node<T> *f){ first = f; }
+template <class T> LinkedList<T>::~LinkedList(){
+	if (length > 0){
+		Node<T> *s = first;
+		Node<T> *t = s->getNext();
+		do{
+			delete s;
+			s = t;
+			t = t->getNext();
+		} while (s != NULL);
+	}
+}
+template <class T> void LinkedList<T>::setFirst(Node<T>* f){
+	first = f;
+}
+template <class T> Node<T>* LinkedList<T>::getFirst() { return first; }
+template <class T> void LinkedList<T>::setLast(Node<T>* l){ last = l; }
+template <class T> void LinkedList<T>::removeLast(){
+	if (length == 0) return;
+	if (length == 1){
+		delete first;
+		delete last;
+		first = NULL;
+		last = NULL;
+	}
+	else{ // length > 1
+		Node<T> *tN = last->getPrevious();
+		last->setPrevious(NULL);
+		delete last;
+		last = tN;
+	}
+	length--;
+}
+template <class T> Node<T>* LinkedList<T>::getLast() { return last; }
+template <class T> int LinkedList<T>::getLength(){ return length; }
+template <class T> void LinkedList<T>::addNode(T d){
+	Node<T> *tN = new Node<T>(d);
+	if (length == 0) setFirst(tN);
+	else last->setNext(tN);
+	setLast(tN);
+	length++;
+}
+
 OBJLoader::OBJLoader(FILE *fp){
 	this->fp = fp;
+
+	initObjects();
+
 	int c = 0;
 	while (c != EOF){
 		c = fgetc(fp);
@@ -64,29 +135,37 @@ OBJLoader::OBJLoader(FILE *fp){
 	}
 	fclose(fp);
 }
-//OBJLoader::~OBJLoader(){}
+OBJLoader::~OBJLoader(){
+	delete objects;
+}
 
-int* OBJLoader::getTagCounts(){
-	int* tagCounts = (int *)calloc(3, sizeof(int));
-	tagCounts = { 0 };
-
+void OBJLoader::initObjects(){
 	fseek(fp, 0, SEEK_SET);
-	int c = 0;
+
+	Object *cObj = new Object();
+	Group *cGrp = new Group();
+	int v = 0, vn = 0, f = 0, c = 0;
 	while (c != EOF){
 		c = fgetc(fp);
 		if (c == 'v'){
 			int nc = fgetc(fp);
 			if (nc == 'n'){
-				tagCounts[1]++;
+				vn++;
 			}
 			else { 
 				fseek(fp, -1, SEEK_CUR); 
-				tagCounts[0]++;
+
+				v++;
 			}
 			
 		}
 		else if (c == 'o'){
-			tagCounts[2]++;
+			objects->addNode();
+			v = 0;
+			vn = 0;
+		}
+		else if (c == 'g'){
+			f = 0;
 		}
 
 		if (c != EOF){
@@ -95,11 +174,24 @@ int* OBJLoader::getTagCounts(){
 
 	}
 
-	return tagCounts;
+	fseek(fp, 0, SEEK_SET);
 }
 
 Object::Object(){}
-//Object::~Object(){}
+Object::Object(int nVertices, int nVNormals){
+	vList = (int *)calloc(nVertices, sizeof(int));
+	vnList = (int *)calloc(nVNormals, sizeof(int));
+}
+Object::Object(char* oName, int nVertices, int nVNormals){
+	this->name = oName;
+	vList = (int *)calloc(nVertices, sizeof(int));
+	vnList = (int *)calloc(nVNormals, sizeof(int));
+}
+Object::~Object(){
+	if (vList) delete[] vList;
+	if (vnList) delete[] vnList;
+}
 
 Group::Group(){}
-//Group::~Group(){}
+Group::Group(char* gName, int nFaces){}
+Group::~Group(){}

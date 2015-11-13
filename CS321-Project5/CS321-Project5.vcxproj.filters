@@ -21,15 +21,9 @@
     <ClCompile Include="OBJMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GLinkedList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OBJLoader_H.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GLinkedList_H.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
