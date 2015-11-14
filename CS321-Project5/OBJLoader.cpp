@@ -14,7 +14,7 @@ OBJLoader::OBJLoader(FILE *fp){
 		c = fgetc(fp);
 		if (c == '#'){
 			//scan to end of line
-			printf("#\n");
+			//printf("#\n");
 			while (c != '\n'){ c = fgetc(fp); }
 		}
 		else if (c == 'v'){
@@ -27,7 +27,7 @@ OBJLoader::OBJLoader(FILE *fp){
 				vnList[vn + 1] = y;
 				vnList[vn + 2] = z;
 
-				printf("vn %f %f %f\n", x, y, z);
+				//printf("vn %f %f %f\n", x, y, z);
 				vn+=3;
 				lt = 'vn';
 			}
@@ -38,7 +38,7 @@ OBJLoader::OBJLoader(FILE *fp){
 				vList[v + 1] = y;
 				vList[v + 2] = z;
 
-				printf("v %f %f %f\n", x, y, z);
+				printf("v %f %f %f : %i\n", x, y, z, v/3);
 				v+=3;
 				lt = 'v';
 			}
@@ -54,7 +54,7 @@ OBJLoader::OBJLoader(FILE *fp){
 			cGroup->displayList[f + 4] = v3-1;
 			cGroup->displayList[f + 5] = vn3-1;
 
-			printf("f %i//%i %i//%i %i//%i\n", cGroup->displayList[f], cGroup->displayList[f + 1], cGroup->displayList[f + 2], cGroup->displayList[f + 3], cGroup->displayList[f + 4], cGroup->displayList[f + 5]);
+			//printf("f %i//%i %i//%i %i//%i\n", cGroup->displayList[f], cGroup->displayList[f + 1], cGroup->displayList[f + 2], cGroup->displayList[f + 3], cGroup->displayList[f + 4], cGroup->displayList[f + 5]);
 			f+=6;
 			lt = 'f';
 		}
@@ -73,25 +73,25 @@ OBJLoader::OBJLoader(FILE *fp){
 					cGroup->kMats[0] = r;
 					cGroup->kMats[1] = g;
 					cGroup->kMats[2] = b;
-					printf("ka %f %f %f\n", cGroup->kMats[0], cGroup->kMats[1], cGroup->kMats[2]);
+					//printf("ka %f %f %f\n", cGroup->kMats[0], cGroup->kMats[1], cGroup->kMats[2]);
 				}
 				else if (nc == 'd'){
 					cGroup->kMats[3] = r;
 					cGroup->kMats[4] = g;
 					cGroup->kMats[5] = b;
-					printf("kd %f %f %f\n", cGroup->kMats[3], cGroup->kMats[4], cGroup->kMats[5]);
+					//printf("kd %f %f %f\n", cGroup->kMats[3], cGroup->kMats[4], cGroup->kMats[5]);
 				}
 				else if (nc == 's'){
 					cGroup->kMats[6] = r;
 					cGroup->kMats[7] = g;
 					cGroup->kMats[8] = b;
-					printf("ks %f %f %f\n", cGroup->kMats[6], cGroup->kMats[7], cGroup->kMats[8]);
+					//printf("ks %f %f %f\n", cGroup->kMats[6], cGroup->kMats[7], cGroup->kMats[8]);
 				}
 				else if (nc == 'e'){
 					cGroup->kMats[9] = r;
 					cGroup->kMats[10] = g;
 					cGroup->kMats[11] = b;
-					printf("ke %f %f %f\n", cGroup->kMats[9], cGroup->kMats[10], cGroup->kMats[11]);
+					//printf("ke %f %f %f\n", cGroup->kMats[9], cGroup->kMats[10], cGroup->kMats[11]);
 				}
 			}
 		}
@@ -102,7 +102,7 @@ OBJLoader::OBJLoader(FILE *fp){
 				
 				cGroup->kMats[12] = shiny;
 
-				printf("se %f\n", cGroup->kMats[12]);
+				//printf("se %f\n", cGroup->kMats[12]);
 				lt = 'se';
 			}
 			else { 
@@ -112,7 +112,7 @@ OBJLoader::OBJLoader(FILE *fp){
 		}
 		else if (c == 'o'){
 			if (v > 0 && vn > 0){
-				printf("o\n");
+				//printf("o\n");
 				while (c != '\n'){ c = fgetc(fp); }
 
 				++cObj;
@@ -122,7 +122,7 @@ OBJLoader::OBJLoader(FILE *fp){
 			}
 		}
 		else if (c == 'g'){
-			printf("g\n");
+			//printf("g\n");
 			while (c != '\n'){ c = fgetc(fp); }
 
 			if (f > 0){

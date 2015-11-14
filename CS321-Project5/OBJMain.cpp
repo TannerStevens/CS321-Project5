@@ -22,7 +22,7 @@ void UserOpenFile(){
 		else validFile = 1; // If file was opened then terminate the loop.
 	}
 	objs = OBJLoader(fp);
-
+	getchar();
 	/*for (std::list<Object>::iterator cObj = objs.objects.begin(); cObj != objs.objects.end(); ++cObj){
 		for (std::list<Group>::iterator cGroup = cObj->groups.begin(); cGroup != cObj->groups.end(); ++cGroup){
 			for (int f = 0; f < cGroup->nFaces; f++){
