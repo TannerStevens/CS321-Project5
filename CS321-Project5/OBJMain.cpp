@@ -27,6 +27,26 @@ void UserOpenFile(){
 		else validFile = 1; // If file was opened then terminate the loop.
 	}
 	objs = OBJLoader(fp);
+<<<<<<< HEAD
+=======
+	getchar();
+	/*for (std::list<Object>::iterator cObj = objs.objects.begin(); cObj != objs.objects.end(); ++cObj){
+		for (std::list<Group>::iterator cGroup = cObj->groups.begin(); cGroup != cObj->groups.end(); ++cGroup){
+			for (int f = 0; f < cGroup->nFaces; f++){
+
+				printf("\n%i//%i %i//%i %i//%i\n\n", cGroup->displayList[f * 6], cGroup->displayList[f * 6 + 1], cGroup->displayList[f * 6 + 2], cGroup->displayList[f * 6 + 3], cGroup->displayList[f * 6 + 4], cGroup->displayList[f * 6 + 5]);
+
+				printf("vn %f %f %f\n", objs.vnList[cGroup->displayList[f * 6 + 1] * 3], objs.vnList[cGroup->displayList[f * 6 + 1] * 3 + 1], objs.vnList[cGroup->displayList[f * 6 + 1] * 3 + 2]);
+				printf("v  %f %f %f\n\n", objs.vList[cGroup->displayList[f * 6] * 3], objs.vList[cGroup->displayList[f * 6] * 3 + 1], objs.vList[cGroup->displayList[f * 6] * 3 + 2]);
+				printf("vn %f %f %f\n", objs.vnList[cGroup->displayList[f * 6 + 3] * 3], objs.vnList[cGroup->displayList[f * 6 + 3] * 3 + 1], objs.vnList[cGroup->displayList[f * 6 + 3] * 3 + 2]);
+				printf("v  %f %f %f\n\n", objs.vList[cGroup->displayList[f * 6 + 2] * 3], objs.vList[cGroup->displayList[f * 6 + 2] * 3 + 1], objs.vList[cGroup->displayList[f * 6 + 2] * 3 + 2]);
+				printf("vn %f %f %f\n", objs.vnList[cGroup->displayList[f * 6 + 5] * 3], objs.vnList[cGroup->displayList[f * 6 + 5] * 3 + 1], objs.vnList[cGroup->displayList[f * 6 + 5] * 3 + 2]);
+				printf("v  %f %f %f\n\n", objs.vList[cGroup->displayList[f * 6 + 4] * 3], objs.vList[cGroup->displayList[f * 6 + 4] * 3 + 1], objs.vList[cGroup->displayList[f * 6 + 4] * 3 + 2]);
+			}
+		}
+
+	}*/
+>>>>>>> origin/master
 }
 
 void display(void){
