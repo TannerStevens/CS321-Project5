@@ -28,14 +28,14 @@ public:
 };
 class OBJLoader{	//LinkedList of Objects
 private:
-	FILE *fp;
+	char* file_name;
 public:
 	GLfloat* vList;			//Vertex List
 	GLfloat* vnList;		//Normal List
 	std::list<Object> objects;
 
 	OBJLoader();
-	OBJLoader(FILE *fp);
+	OBJLoader(char file_name[256]);
 
 	void initObjects();
 	void allocateLists(int nVertices, int nVNormals);

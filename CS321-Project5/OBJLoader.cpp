@@ -1,16 +1,27 @@
 #include "OBJLoader_H.h"
 
+char getNC(FILE *fp){
+	char c = fgetc(fp);
+	printf("%c", c);
+	return c;
+}
+
 OBJLoader::OBJLoader(){}
-OBJLoader::OBJLoader(FILE *fp){
-	this->fp = fp;
+OBJLoader::OBJLoader(char file_name[256]){
+	this->file_name = file_name;
 
 	initObjects();
+	printf("Objects Initialized\n");
+
+	FILE *fp;
+	fopen_s(&fp, file_name, "r");
 
 	std::list<Object>::iterator cObj = objects.begin();
 	std::list<Group>::iterator cGroup = cObj->groups.begin();
 
 	int v = 0, vn = 0, f = 0, c = 0, lt = -1;
 	while (c != EOF){
+		//Try changing fgetc to all fscanf_s
 		c = fgetc(fp);
 		if (c == '#'){
 			//scan to end of line
@@ -20,9 +31,9 @@ OBJLoader::OBJLoader(FILE *fp){
 		else if (c == 'v'){
 			int nc = fgetc(fp);
 			GLfloat x, y, z;
-			fscanf_s(fp, " %f %f %f\n", &x, &y, &z);
 
 			if (nc == 'n'){
+				fscanf_s(fp, " %f %f %f\n", &x, &y, &z);
 				vnList[vn] = x;
 				vnList[vn + 1] = y;
 				vnList[vn + 2] = z;
@@ -32,13 +43,14 @@ OBJLoader::OBJLoader(FILE *fp){
 				lt = 'vn';
 			}
 			else { //Not a Normal, just Vertex
-				fseek(fp, -1, SEEK_CUR); 
+				fseek(fp, -1, SEEK_CUR);
+				fscanf_s(fp, " %f %f %f\n", &x, &y, &z);
 
 				vList[v] = x;
 				vList[v + 1] = y;
 				vList[v + 2] = z;
 
-				printf("v %f %f %f : %i\n", x, y, z, v/3);
+				//printf("v %f %f %f : %i\n", x, y, z, v/3);
 				v+=3;
 				lt = 'v';
 			}
@@ -106,7 +118,7 @@ OBJLoader::OBJLoader(FILE *fp){
 				lt = 'se';
 			}
 			else { 
-				fseek(fp, -1, SEEK_CUR); 
+				while (c != '\n'){ c = fgetc(fp); }
 				lt = -1;
 			}
 		}
@@ -140,6 +152,9 @@ OBJLoader::OBJLoader(FILE *fp){
 }
 
 void OBJLoader::initObjects(){
+	FILE *fp;
+	fopen_s(&fp, file_name, "r");
+
 	Object cObj = *new Object();
 	int v = 0, vBase = 0, vn = 0, vnBase = 0, f = 0, c = 0, lt = -1;
 	while (c != EOF){
@@ -205,7 +220,7 @@ void OBJLoader::initObjects(){
 	}
 	allocateLists(v, vn);
 
-	fseek(fp, 0, SEEK_SET);
+	fclose(fp);
 }
 void OBJLoader::allocateLists(int nVertices, int nVNormals){
 	vList = (GLfloat *)calloc(nVertices * 3, sizeof(GLfloat));

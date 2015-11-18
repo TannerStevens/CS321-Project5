@@ -21,7 +21,8 @@ void UserOpenFile(){
 		if (fp == NULL) printf("\nCan't open %s!\n", file_name); // If cannot open, Loop.
 		else validFile = 1; // If file was opened then terminate the loop.
 	}
-	objs = OBJLoader(fp);
+	fclose(fp);
+	objs = OBJLoader(file_name);
 	getchar();
 	/*for (std::list<Object>::iterator cObj = objs.objects.begin(); cObj != objs.objects.end(); ++cObj){
 		for (std::list<Group>::iterator cGroup = cObj->groups.begin(); cGroup != cObj->groups.end(); ++cGroup){
