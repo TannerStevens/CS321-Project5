@@ -273,11 +273,12 @@ void Group::finalize(GLfloat bUX, GLfloat bUY, GLfloat bUZ, GLfloat bLX, GLfloat
 	this->bCenter[1] = ((bUY + bLY) / 2);
 	this->bCenter[2] = ((bUZ + bLZ) / 2);
 
-	GLfloat xr = bUX - this->bCenter[0];
-	GLfloat yr = bUY - this->bCenter[1];
-	GLfloat zr = bUZ - this->bCenter[2];
+	GLfloat xr = bUX - bLX;
+	GLfloat yr = bUY - bLY;
+	GLfloat zr = bUZ - bLZ;
 
 	this->bRadius = xr;
 	if (yr > this->bRadius) this->bRadius = yr;
 	if (zr > this->bRadius) this->bRadius = zr;
+	this->bRadius /= 2;
 }

@@ -185,23 +185,58 @@ int rayIntersectsTriangle(GLfloat *p, GLfloat *d, GLfloat *v0, GLfloat *v1, GLfl
 
 }
 int rayIntersectsSphere(GLfloat* p, GLfloat* d, GLfloat r, GLfloat* c){
+	float t;
 	glColor3f(0, 1, 0);
-	printArr(p, 3);
-	printArr(d, 3);
-	printArr(c, 3);
+	//Compute A, B and C coefficients
 	GLfloat *vpc = p2pVec(p, c);
-	if (dotProduct(vpc, d) < 0){
-		GLfloat dVPC = distance(vpc);
-		if (dVPC > r) return false;
-		else return true;
+	float A = dotProduct(d, d);
+	float B = dotProduct(new GLfloat[]{2*vpc[0], 2*vpc[1], 2*vpc[2]}, d);
+	float C = dotProduct(vpc, vpc) - (r * r);
+
+	//Find discriminant
+	float disc = B * B - 4 * A * C;
+
+	// if discriminant is negative there are no real roots, so return 
+	// false as ray misses sphere
+	if (disc < 0)
+		return false;
+
+	// compute q as described above
+	float distSqrt = sqrtf(disc);
+	float q;
+	if (B < 0)
+		q = (-B - distSqrt) / 2.0;
+	else
+		q = (-B + distSqrt) / 2.0;
+
+	// compute t0 and t1
+	float t0 = q / A;
+	float t1 = C / q;
+
+	// make sure t0 is smaller than t1
+	if (t0 > t1)
+	{
+		// if t0 is bigger than t1 swap them around
+		float temp = t0;
+		t0 = t1;
+		t1 = temp;
 	}
-	else{
-		GLfloat* pc = projectVectorU2V(vpc, d);
-		printf("\npVU2V");
-		printArr(pc, 3);
-		printf("\n");
-		if (distance(p2pVec(pc, c)) > r) return false;
-		else return true;
+
+	// if t1 is less than zero, the object is in the ray's negative direction
+	if (t1 < 0)
+		return true;
+
+	// if t0 is less than zero, the intersection point is at t1
+	if (t0 < 0)
+	{
+		t = t1;
+		return true;
+	}
+	// else the intersection point is at t0
+	else
+	{
+		t = t0;
+		return true;
 	}
 }
 
@@ -230,7 +265,7 @@ Group* findIntersectingGroup(int screenX, int screenY){
 	debugC[4] = worldFV[1];
 	debugC[5] = worldFV[2];
 	/*printf("\n%f %f %f", worldCV[0], worldCV[1], worldCV[2]);*/
-	printf("\n%f %f %f", worldFV[0], worldFV[1], worldFV[2]);
+	//printf("\n%f %f %f", worldFV[0], worldFV[1], worldFV[2]);
 
 	GLfloat wPos[] = { (GLfloat)worldCV[0], (GLfloat)worldCV[1], (GLfloat)worldCV[2] };
 	GLfloat* dir = unitfyVector(p2pVec(worldCV, worldFV));
@@ -238,6 +273,7 @@ Group* findIntersectingGroup(int screenX, int screenY){
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	//Need to apply Transformations for Accurate Checking
+	//Organize Groups by distance of GroupCenter from Point
 	for (std::list<Object>::iterator cObj = objs.objects.begin(); cObj != objs.objects.end(); cObj++){
 		for (std::list<Group>::iterator cGroup = cObj->groups.begin(); cGroup != cObj->groups.end(); cGroup++){
 			if (rayIntersectsSphere(wPos, dir, cGroup->bRadius, cGroup->bCenter)){
@@ -330,8 +366,7 @@ void display(void){
 			glVertex3d(debugC[3], debugC[4], debugC[5]);
 		glEnd();
 		glBegin(GL_POINTS);
-			GLfloat* dir = p2pVec(debugC, debugC + 3);
-			glVertex3d(debugC[0] + .2*dir[0], debugC[1] + .2*dir[1], debugC[2] + .2*dir[2]);
+			glVertex3d(debugC[0], debugC[1], debugC[2]);
 		glEnd();
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_LIGHTING);
