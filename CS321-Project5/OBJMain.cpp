@@ -93,9 +93,21 @@ GLfloat* p2pUVec(GLfloat* sP, GLfloat* eP){
 
 	return rVector;
 }
+GLfloat* unitfyVector(GLfloat* v){
+	GLfloat* rVector = (GLfloat*)calloc(3, sizeof(GLfloat));
+
+	GLfloat s = distance(v);
+
+	rVector[0] = v[0] / s;
+	rVector[1] = v[1] / s;
+	rVector[2] = v[2] / s;
+
+	return rVector;
+}
 GLfloat* projectVectorU2V(GLfloat* u, GLfloat* v){
 	GLfloat* rVector = (GLfloat*)calloc(3, sizeof(GLfloat));
 
+	v = unitfyVector(v);
 	GLfloat s = dotProduct(u, v)/distance(v);
 
 	rVector[0] = s*v[0];
