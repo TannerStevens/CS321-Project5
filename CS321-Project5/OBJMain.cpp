@@ -17,6 +17,13 @@ GLfloat posLightCutoffAngle = 180;
 GLdouble debugC[6];
 Group *selectedG = NULL;
 
+template <class T> void printArr(T* arr, int n){
+	printf("\n");
+	for (int i = 0; i < n; i++){
+		printf(" %g", arr[i]);
+	}
+}
+
 GLfloat distance(GLfloat* v){
 	return sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[2], 2));
 }
@@ -38,7 +45,7 @@ GLfloat* crossProduct(GLfloat *v1, GLfloat *v2){ //
 	return rVector;
 }
 GLfloat dotProduct(GLfloat *v1, GLfloat *v2){
-	return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+	return (v1[0] * v2[0]) + (v1[1] * v2[1]) + (v1[2] * v2[2]);
 }
 
 GLfloat* p2pVec(GLfloat* sP, GLfloat* eP){
@@ -107,14 +114,35 @@ GLfloat* unitfyVector(GLfloat* v){
 GLfloat* projectVectorU2V(GLfloat* u, GLfloat* v){
 	GLfloat* rVector = (GLfloat*)calloc(3, sizeof(GLfloat));
 
-	v = unitfyVector(v);
 	GLfloat s = dotProduct(u, v)/distance(v);
 
 	rVector[0] = s*v[0];
 	rVector[1] = s*v[1];
 	rVector[2] = s*v[2];
 
+	glBegin(GL_LINES);
+		glColor3f(.5, 0, .5);
+		glVertex3f(u[0], u[1], u[2]);
+		glVertex3f(rVector[0], rVector[1], rVector[2]);
+	glEnd();
+
 	return rVector;
+}
+
+//aRxaC * bRxbC = aRxbC
+GLfloat* MatrixMult(GLdouble* aM, int aR, int aC, GLfloat* bM, int bR, int bC){
+	GLfloat* product = (GLfloat *)calloc(aR*bC, sizeof(GLfloat));
+	if (aC == bR){
+		for (int row = 0; row < aR; row++) {
+			for (int col = 0; col < bC; col++) {
+				// Multiply the row of A by the column of B to get the row, column of product.
+				for (int inner = 0; inner < aC; inner++) {
+					product[row*bC+col] += aM[row*aC+inner] * bM[inner*bC+col];
+				}
+			}
+		}
+	}
+	return product;
 }
 
 //Credit to http://www.lighthouse3d.com/tutorials/maths for both the Triangle and Sphere Intersection Algorithms
@@ -158,6 +186,9 @@ int rayIntersectsTriangle(GLfloat *p, GLfloat *d, GLfloat *v0, GLfloat *v1, GLfl
 }
 int rayIntersectsSphere(GLfloat* p, GLfloat* d, GLfloat r, GLfloat* c){
 	glColor3f(0, 1, 0);
+	printArr(p, 3);
+	printArr(d, 3);
+	printArr(c, 3);
 	GLfloat *vpc = p2pVec(p, c);
 	if (dotProduct(vpc, d) < 0){
 		GLfloat dVPC = distance(vpc);
@@ -165,7 +196,10 @@ int rayIntersectsSphere(GLfloat* p, GLfloat* d, GLfloat r, GLfloat* c){
 		else return true;
 	}
 	else{
-		GLfloat* pc = projectVectorU2V(c, d);
+		GLfloat* pc = projectVectorU2V(vpc, d);
+		printf("\npVU2V");
+		printArr(pc, 3);
+		printf("\n");
 		if (distance(p2pVec(pc, c)) > r) return false;
 		else return true;
 	}
@@ -195,11 +229,11 @@ Group* findIntersectingGroup(int screenX, int screenY){
 	debugC[3] = worldFV[0];
 	debugC[4] = worldFV[1];
 	debugC[5] = worldFV[2];
-	/*printf("\n%f %f %f", worldCV[0], worldCV[1], worldCV[2]);
-	printf("\n%f %f %f", worldFV[0], worldFV[1], worldFV[2]);*/
+	/*printf("\n%f %f %f", worldCV[0], worldCV[1], worldCV[2]);*/
+	printf("\n%f %f %f", worldFV[0], worldFV[1], worldFV[2]);
 
 	GLfloat wPos[] = { (GLfloat)worldCV[0], (GLfloat)worldCV[1], (GLfloat)worldCV[2] };
-	GLfloat* dir = p2pVec(worldCV, worldFV);
+	GLfloat* dir = unitfyVector(p2pVec(worldCV, worldFV));
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);

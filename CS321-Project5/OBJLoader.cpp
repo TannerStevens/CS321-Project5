@@ -13,7 +13,7 @@ OBJLoader::OBJLoader(char file_name[256]){
 	std::list<Object>::iterator cObj = objects.begin();
 	std::list<Group>::iterator cGroup = cObj->groups.begin();
 
-	GLfloat bUX = 0, bUY = 0, bUZ = 0, bLX = 0, bLY = 0, bLZ = 0;
+	GLfloat bUX = -(INT_MAX), bUY = -(INT_MAX), bUZ = -(INT_MAX), bLX = INT_MAX, bLY = INT_MAX, bLZ = INT_MAX;
 	int v = 0, vn = 0, f = 0, c = 0, lt = -1;
 	while (c != EOF){
 		//Try changing fgetc to all fscanf_s
@@ -63,25 +63,25 @@ OBJLoader::OBJLoader(char file_name[256]){
 			cGroup->displayList[f + 4] = --v3;
 			cGroup->displayList[f + 5] = --vn3;
 			
-			if (vList[v1] > bUX) bUX = vList[v1];
-			if (vList[v1 + 1] > bUY) bUY = vList[v1 + 1];
-			if (vList[v1 + 2] > bUZ) bUZ = vList[v1 + 2];
-			if (vList[v2] > bUX) bUX = vList[v2];
-			if (vList[v2 + 1] > bUY) bUY = vList[v2 + 1];
-			if (vList[v2 + 2] > bUZ) bUZ = vList[v2 + 2];
-			if (vList[v3] > bUX) bUX = vList[v3];
-			if (vList[v3 + 1] > bUY) bUY = vList[v3 + 1];
-			if (vList[v3 + 2] > bUZ) bUZ = vList[v3 + 2];
+			if (vList[v1 * 3] > bUX) bUX = vList[v1 * 3];
+			if (vList[v1 * 3 + 1] > bUY) bUY = vList[v1 * 3 + 1];
+			if (vList[v1 * 3 + 2] > bUZ) bUZ = vList[v1 * 3 + 2];
+			if (vList[v2 * 3] > bUX) bUX = vList[v2 * 3];
+			if (vList[v2 * 3 + 1] > bUY) bUY = vList[v2 * 3 + 1];
+			if (vList[v2 * 3 + 2] > bUZ) bUZ = vList[v2 * 3 + 2];
+			if (vList[v3 * 3] > bUX) bUX = vList[v3 * 3];
+			if (vList[v3 * 3 + 1] > bUY) bUY = vList[v3 * 3 + 1];
+			if (vList[v3 * 3 + 2] > bUZ) bUZ = vList[v3 * 3 + 2];
 
-			if (vList[v1] < bLX) bLX = vList[v1];
-			if (vList[v1 + 1] < bLY) bLY = vList[v1 + 1];
-			if (vList[v1 + 2] < bLZ) bLZ = vList[v1 + 2];
-			if (vList[v2] < bLX) bLX = vList[v2];
-			if (vList[v2 + 1] < bLY) bLY = vList[v2 + 1];
-			if (vList[v2 + 2] < bLZ) bLZ = vList[v2 + 2];
-			if (vList[v3] < bLX) bLX = vList[v3];
-			if (vList[v3 + 1] < bLY) bLY = vList[v3 + 1];
-			if (vList[v3 + 2] < bLZ) bLZ = vList[v3 + 2];
+			if (vList[v1 * 3] < bLX) bLX = vList[v1 * 3];
+			if (vList[v1 * 3 + 1] < bLY) bLY = vList[v1 * 3 + 1];
+			if (vList[v1 * 3 + 2] < bLZ) bLZ = vList[v1 * 3 + 2];
+			if (vList[v2 * 3] < bLX) bLX = vList[v2 * 3];
+			if (vList[v2 * 3 + 1] < bLY) bLY = vList[v2 * 3 + 1];
+			if (vList[v2 * 3 + 2] < bLZ) bLZ = vList[v2 * 3 + 2];
+			if (vList[v3 * 3] < bLX) bLX = vList[v3 * 3];
+			if (vList[v3 * 3 + 1] < bLY) bLY = vList[v3 * 3 + 1];
+			if (vList[v3 * 3 + 2] < bLZ) bLZ = vList[v3 * 3 + 2];
 
 			//printf("f %i//%i %i//%i %i//%i\n", cGroup->displayList[f], cGroup->displayList[f + 1], cGroup->displayList[f + 2], cGroup->displayList[f + 3], cGroup->displayList[f + 4], cGroup->displayList[f + 5]);
 			f+=6;
@@ -95,7 +95,7 @@ OBJLoader::OBJLoader(char file_name[256]){
 				if ( (lt != 'g' || lt != 'k') && f > 0){
 					cGroup->finalize(bUX, bUY, bUZ, bLX, bLY, bLZ);
 					++cGroup;
-					f = 0, bUX = 0, bUY = 0, bUZ = 0, bLX = 0, bLY = 0, bLZ = 0;
+					f = 0, bUX = -(INT_MAX), bUY = -(INT_MAX), bUZ = -(INT_MAX), bLX = INT_MAX, bLY = INT_MAX, bLZ = INT_MAX;
 					lt = 'g';
 				}
 
@@ -148,7 +148,7 @@ OBJLoader::OBJLoader(char file_name[256]){
 				++cObj;
 				cGroup->finalize(bUX, bUY, bUZ, bLX, bLY, bLZ);
 				cGroup = cObj->groups.begin();
-				f = 0, bUX = 0, bUY = 0, bUZ = 0, bLX = 0, bLY = 0, bLZ = 0;
+				f = 0, bUX = -(INT_MAX), bUY = -(INT_MAX), bUZ = -(INT_MAX), bLX = INT_MAX, bLY = INT_MAX, bLZ = INT_MAX;
 				lt = 'o';
 			}
 			else while (c != '\n'){ c = fgetc(fp); }
@@ -160,7 +160,7 @@ OBJLoader::OBJLoader(char file_name[256]){
 			if (f > 0){
 				cGroup->finalize(bUX, bUY, bUZ, bLX, bLY, bLZ);
 				++cGroup;
-				f = 0, bUX = 0, bUY = 0, bUZ = 0, bLX = 0, bLY = 0, bLZ = 0;
+				f = 0, bUX = -(INT_MAX), bUY = -(INT_MAX), bUZ = -(INT_MAX), bLX = INT_MAX, bLY = INT_MAX, bLZ = INT_MAX;
 				lt = 'g';
 			}
 		}
@@ -169,6 +169,7 @@ OBJLoader::OBJLoader(char file_name[256]){
 			lt = -1;
 		}
 	}
+	if(f>0)cGroup->finalize(bUX, bUY, bUZ, bLX, bLY, bLZ);
 	printf("v:%i/%i vn:%i/%i", v / 3, nV, vn / 3, nVn);
 
 	fclose(fp);
@@ -268,16 +269,15 @@ Group::Group(int nFaces){
 }
 Group::Group(char* gName, int nFaces){}
 void Group::finalize(GLfloat bUX, GLfloat bUY, GLfloat bUZ, GLfloat bLX, GLfloat bLY, GLfloat bLZ){
-	this->bCenter[0] = (bUX + bLX) / 2;
-	this->bCenter[1] = (bUY + bLY) / 2;
-	this->bCenter[2] = (bUZ + bLZ) / 2;
+	this->bCenter[0] = ((bUX + bLX) / 2);
+	this->bCenter[1] = ((bUY + bLY) / 2);
+	this->bCenter[2] = ((bUZ + bLZ) / 2);
 
-	GLfloat xr = bUX - bLX;
-	GLfloat yr = bUY - bLY;
-	GLfloat zr = bUX - bLX;
+	GLfloat xr = bUX - this->bCenter[0];
+	GLfloat yr = bUY - this->bCenter[1];
+	GLfloat zr = bUZ - this->bCenter[2];
 
 	this->bRadius = xr;
 	if (yr > this->bRadius) this->bRadius = yr;
 	if (zr > this->bRadius) this->bRadius = zr;
-	this->bRadius /= 2;
 }
