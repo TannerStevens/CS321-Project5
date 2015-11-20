@@ -16,10 +16,8 @@ OBJLoader::OBJLoader(char file_name[256]){
 	GLfloat bUX = -(INT_MAX), bUY = -(INT_MAX), bUZ = -(INT_MAX), bLX = INT_MAX, bLY = INT_MAX, bLZ = INT_MAX;
 	int v = 0, vn = 0, f = 0, c = 0, lt = -1;
 	while (c != EOF){
-		//Try changing fgetc to all fscanf_s
 		c = fgetc(fp);
 		if (c == '#'){
-			//scan to end of line
 			//printf("#\n");
 			while (c != '\n'){ c = fgetc(fp); }
 		}

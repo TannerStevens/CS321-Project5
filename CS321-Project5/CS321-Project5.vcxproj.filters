@@ -18,12 +18,18 @@
     <ClCompile Include="OBJLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OBJMain.cpp">
+    <ClCompile Include="Project5Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Project5Implementation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OBJLoader_H.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Project5_H.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
